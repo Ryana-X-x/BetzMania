@@ -1,0 +1,60 @@
+/* styles/about.module.css */
+
+.aboutContainer {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: #071d2a;
+    color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.aboutContainer h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #0070f3;
+}
+
+.aboutContainer p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Contact Form Styles */
+.contactForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contactForm label {
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.contactForm input,
+.contactForm textarea {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    background-color: #1a2c38;
+    color: #ffffff;
+}
+
+.contactForm button {
+    padding: 0.75rem 1.5rem;
+    background-color: #0070f3;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.contactForm button:hover {
+    background-color: #005bb5;
+}

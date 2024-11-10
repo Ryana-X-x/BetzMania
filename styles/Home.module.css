@@ -1,0 +1,104 @@
+.container {
+    text-align: center;
+    padding: 2rem;
+    background-color: #071d2a;
+}
+
+.gameGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+    border: 1px solid black;
+    background-color: #1a2c38;
+}
+
+@media (max-width: 768px) {
+    .gameGrid {
+        grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); /* Use smaller minimum column width for small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .gameGrid {
+        grid-template-columns: 1fr; /* Stack the cards in a single column for very small screens */
+    }
+}
+
+
+.card h2{
+    font-size: 2rem;
+    font-family: sans-serif;
+    font-weight: 600;
+    background-color: white;
+}
+
+.card p{
+    font-size: 1.5rem;
+    background-color: white;
+
+}
+
+.card {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    width: 90%;
+    margin: auto;
+    background-color: #fff;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.playButton {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    background-color: #0070f3;
+    border-radius: 4px;
+    text-decoration: none;
+    width: 100%;
+}
+
+.playButton:hover {
+    background-color: #005bb5;
+}
+
+.image {
+    margin: auto;
+    width: 80vw;
+    animation: bounce 2s ease-in-out infinite;
+}
+.card img{
+    width: 90%;
+    margin: auto;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.h{
+    font-size: 5vw;
+    font-style: italic;
+    font-weight: 900;
+    font-family: sans-serif;
+    color: white;
+}
+
+.p{
+    font-size: 3vw;
+    font-weight: 600;
+    font-family: sans-serif;
+    color: white;
+}

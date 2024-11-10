@@ -1,0 +1,99 @@
+/* Profile.module.css */
+
+.profileContainer {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profileContainer h1 {
+    color: #333;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.profileDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.profileDetails img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    border: 2px solid #ccc;
+}
+
+.profileDetails p {
+    font-size: 1em;
+    color: #666;
+    margin: 8px 0;
+}
+
+.profileDetails p strong {
+    color: #333;
+    font-weight: 600;
+}
+
+.loading, .error {
+    font-size: 1.2em;
+    color: #333;
+    margin: 20px;
+    text-align: center;
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.depositButton,
+.withdrawButton {
+    padding: 8px 16px;
+    font-size: 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.depositButton {
+    background-color: #4CAF50; /* Green for Deposit */
+}
+
+.withdrawButton {
+    background-color: #f44336; /* Red for Withdraw */
+}
+
+.depositButton:hover {
+    background-color: #45a049;
+}
+
+.withdrawButton:hover {
+    background-color: #e53935;
+}
+
+.amountInput {
+    padding: 8px;
+    margin-top: 10px;
+    width: 100%;
+    max-width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 1em;
+}
