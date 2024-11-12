@@ -4,6 +4,8 @@ import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import axios from 'axios';
 import styles from '../styles/nav.module.css';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Navbar = () => {
     const { isLoggedIn, user, logout } = useAuth();
@@ -37,6 +39,18 @@ const Navbar = () => {
 
     const handleLogout = () => {
         logout();
+    };
+
+    const handleProfileClick = (e) => {
+        if (!isLoggedIn) {
+            e.preventDefault(); 
+            toast.info("Please login to access your profile", {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+                theme: "dark",
+            });
+        }
     };
 
     const toggleDropdown = () => {
@@ -82,7 +96,7 @@ const Navbar = () => {
                                 Profile
                             </Link>
                         ) : (
-                            <Link href="/profile" className={styles.item}>
+                            <Link href="/profile" onClick={handleProfileClick} className={styles.item}>
                                 Profile
                             </Link>
                         )}
