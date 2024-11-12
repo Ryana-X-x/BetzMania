@@ -34,48 +34,71 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const res = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      toast(` Login Successfully`, {
-        position: "top-center",
-        autoClose: 1000,
+      if (res.ok) {
+        toast.success('Login successful', {
+          position: 'top-center',
+          autoClose: 1000,
+          hideProgressBar: true,
+          theme: 'dark',
+          transition: Bounce,
+        });
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        setTimeout(() => router.push('/'), 1000); // Redirect after a short delay
+      } else {
+        toast.error(data.message || 'Login failed', {
+          position: 'top-center',
+          autoClose: 2000,
+          hideProgressBar: true,
+          theme: 'dark',
+          transition: Bounce,
+        });
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      toast.error('An error occurred. Please try again later.', {
+        position: 'top-center',
+        autoClose: 2000,
         hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
+        theme: 'dark',
         transition: Bounce,
-    });
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      router.push('/');
-
-
-    } else {
-      alert(data.message); // Show error
+      });
     }
   };
 
 
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setUser(null);
-    if (isMounted) {
-      router.push('/login'); // Redirect to login page after logout
+    const isConfirmed = window.confirm("Are you sure you want to logout?");
+    
+    if (isConfirmed) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setUser(null);
+        if (isMounted) {
+            router.push('/login'); 
+        }
+        toast.info('Logged out successfully', {
+          position: 'top-center',
+          autoClose: 1000,
+          hideProgressBar: true,
+          theme: 'dark',
+          transition: Bounce,
+        });
     }
-  };
+};
+
 
   if (!isMounted) {
     return null;  // Prevent rendering the component until after mounting

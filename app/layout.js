@@ -3,6 +3,8 @@ import Navbar from '@/components/Nav';
 import Footer from '@/components/Footer';
 import './globals.css'; 
 import { AuthProvider } from '@/context/AuthContext'; 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata = {
     title: 'BetzMania',
@@ -17,6 +19,7 @@ const Layout = ({ children }) => {
             <body>
                 <AuthProvider>
                     <Navbar />
+                    <ToastContainer />
                     <main>{children}</main>
                     <Footer />
                 </AuthProvider>

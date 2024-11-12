@@ -19,35 +19,48 @@ const SignupPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const res = await fetch('/api/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, email, password }),
-        });
+        try {
+            const res = await fetch('/api/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, email, password }),
+            });
 
-        if (res.ok) {
-            toast('User Register successfully', {
+            const data = await res.json();
+
+            if (res.ok) {
+                toast.success("Signup successful! Redirecting to login...", {
+                    position: "top-center",
+                    autoClose: 1500,
+                    hideProgressBar: true,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+                localStorage.setItem('token', data.token);
+                setTimeout(() => router.push('/login'), 1500);
+            } else {
+                toast.error(data.message || 'Signup failed.', {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+            }
+        } catch (error) {
+            toast.error("An error occurred. Please try again later.", {
                 position: "top-center",
-                autoClose: 1000,
+                autoClose: 2000,
                 hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
                 theme: "dark",
                 transition: Bounce,
             });
-            const { token } = await res.json();
-            localStorage.setItem('token', token);
-            router.push('/login');
-        } else {
-            const errorData = await res.json();
-            console.error('Signup failed:', errorData.message); // Log the error message for debugging
-            alert(errorData.message);
+            console.error('Signup error:', error); 
         }
     };
+
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
       };

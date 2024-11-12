@@ -1,39 +1,46 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/context/AuthContext'; 
+import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import axios from 'axios';
-import styles from "../styles/nav.module.css";
+import styles from '../styles/nav.module.css';
 
 const Navbar = () => {
-    const { isLoggedIn, user, logout } = useAuth(); 
-    const [balance, setBalance] = useState(null); 
+    const { isLoggedIn, user, logout } = useAuth();
+    const [balance, setBalance] = useState(null);
+    const [loadingBalance, setLoadingBalance] = useState(false);
+    const [balanceError, setBalanceError] = useState(null);
     const [showDropdown, setShowDropdown] = useState(false);
 
     useEffect(() => {
         if (isLoggedIn && user) {
             fetchUserBalance(user.id);
         }
-    }, [isLoggedIn, user]); 
+    }, [isLoggedIn, user]);
 
     const fetchUserBalance = async (userId) => {
+        setLoadingBalance(true);
         const token = localStorage.getItem('token');
         try {
             const response = await axios.get(`/api/user/${userId}/balance`, {
-                headers: { Authorization: `Bearer ${token}` }
+                headers: { Authorization: `Bearer ${token}` },
             });
-            setBalance(response.data.balance); 
+            setBalance(response.data.balance);
+            setBalanceError(null);
         } catch (error) {
             console.error('Error fetching balance:', error);
+            setBalanceError('Could not load balance');
+        } finally {
+            setLoadingBalance(false);
         }
     };
 
     const handleLogout = () => {
-        logout(); 
+        logout();
     };
 
     const toggleDropdown = () => {
-        setShowDropdown(prevState => !prevState);
+        setShowDropdown((prevState) => !prevState);
     };
 
     return (
@@ -44,11 +51,27 @@ const Navbar = () => {
                 </Link>
 
                 <div className={styles.rr}>
-                    {isLoggedIn && balance !== null ? (
-                        <span className={styles.balance}>Balance: ${balance.toFixed(2)}</span> 
-                    ) : null}
-                    <div className={styles.hamburger} onClick={toggleDropdown}>
-                        &#9776; 
+                    {isLoggedIn && (
+                        <div className={styles.balanceContainer}>
+                            {loadingBalance ? (
+                                <span className={styles.balance}>Loading...</span>
+                            ) : balanceError ? (
+                                <span className={styles.error}>{balanceError}</span>
+                            ) : (
+                                <span className={styles.balance}>Balance: ${balance?.toFixed(2)}</span>
+                            )}
+                        </div>
+                    )}
+
+                    <div
+                        className={styles.hamburger}
+                        onClick={toggleDropdown}
+                        role="button"
+                        tabIndex={0}
+                        aria-expanded={showDropdown}
+                        aria-label="Toggle menu"
+                    >
+                        &#9776;
                     </div>
 
                     <div className={`${styles.right} ${showDropdown ? styles.show : ''}`}>
@@ -65,11 +88,13 @@ const Navbar = () => {
                         )}
 
                         {isLoggedIn ? (
-                            <span className={styles.item} onClick={handleLogout}>Logout</span>
+                            <span className={styles.item} onClick={handleLogout}>
+                                Logout
+                            </span>
                         ) : (
                             <>
                                 <Link href="/login" className={styles.item}>Login</Link>
-                                <Link href="/signup" className={styles.item}>SignUp</Link>
+                                <Link href="/signup" className={styles.item}>Sign Up</Link>
                             </>
                         )}
                     </div>
