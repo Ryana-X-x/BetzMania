@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import styles from '../../styles/Login.module.css';
+import styles from '../../styles/login.module.css';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
