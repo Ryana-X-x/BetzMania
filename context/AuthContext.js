@@ -8,6 +8,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
+    const [reload, setReload] = useState(false);
 
     useEffect(() => {
         // Check if there is a token in localStorage
@@ -18,13 +19,14 @@ export const AuthProvider = ({ children }) => {
             setIsLoggedIn(true);
             setUser(JSON.parse(storedUser));
         }
-    }, []); // only runs on mount (initial load)
+    }, [reload]); // Dependency on reload state
 
     const login = (userData, token) => {
         setIsLoggedIn(true);
         setUser(userData);
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(userData));
+        setReload(!reload); // Toggle reload
     };
 
     const logout = () => {
@@ -32,6 +34,8 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        setReload(!reload); // Toggle reload
+
     };
 
     return (

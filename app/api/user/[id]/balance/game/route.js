@@ -2,10 +2,10 @@ import dbConnect from "@/lib/dbConnect";
 import { User } from "@/models/User";
 
 export async function POST(req, { params }) {
-    const { id } = params;  // Get the id from the URL parameters
-    const { gameOutcome, amount } = await req.json();  // Expect the game outcome and bet amount
+    const { id } = params;  
+    const { gameOutcome, amount } = await req.json();  
 
-    await dbConnect();  // Ensure the database is connected
+    await dbConnect();  
 
     try {
         const user = await User.findById(id);  // Find the user by ID

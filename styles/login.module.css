@@ -56,7 +56,6 @@
     background-color: #005bb5;
   }
   
-  /* Error message styling */
   .error {
     color: red;
     font-size: 14px;
@@ -64,3 +63,26 @@
     text-align: center;
   }
   
+
+.passwordContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+
+.input {
+  width: 100%;
+  padding-right: 2rem; 
+  padding-left: 0.5rem; 
+
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+
+}

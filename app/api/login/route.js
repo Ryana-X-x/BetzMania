@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 export async function POST(req) {
     await dbConnect();
 
-    const { email, password } = await req.json(); // Ensure to parse the request body
+    const { email, password } = await req.json(); 
 
     if (!email || !password) {
         return new Response(
@@ -16,7 +16,7 @@ export async function POST(req) {
     }
 
     try {
-        // Look for the user with the given email
+
         let user = await User.findOne({ email });
         if (!user) {
             return new Response(
@@ -25,7 +25,6 @@ export async function POST(req) {
             );
         }
 
-        // Compare entered password with stored hash
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) {
             return new Response(
@@ -34,12 +33,10 @@ export async function POST(req) {
             );
         }
 
-        // Generate JWT token with user ID
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-            expiresIn: '365d', // Token expiry
+            expiresIn: '365d', 
         });
 
-        // Return success with message and token, along with basic user info (excluding password)
         return new Response(
             JSON.stringify({
                 message: `Welcome ${user.name}`,
@@ -55,7 +52,7 @@ export async function POST(req) {
             { status: 200 }
         );
     } catch (error) {
-        console.error("Login error:", error); // Log error for debugging
+        console.error("Login error:", error); 
         return new Response(
             JSON.stringify({ message: "Internal server error", success: false }),
             { status: 500 }

@@ -15,13 +15,13 @@
 
 @media (max-width: 768px) {
     .gameGrid {
-        grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); /* Use smaller minimum column width for small screens */
+        grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); 
     }
 }
 
 @media (max-width: 480px) {
     .gameGrid {
-        grid-template-columns: 1fr; /* Stack the cards in a single column for very small screens */
+        grid-template-columns: 1fr; 
     }
 }
 

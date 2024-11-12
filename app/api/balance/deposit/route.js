@@ -1,17 +1,15 @@
-// app/api/balance/deposit/route.js
 
 import dbConnect from "@/lib/dbConnect";
 import { User } from "@/models/User";
 
 export async function POST(req) {
-    await dbConnect(); // Ensure database connection
+    await dbConnect(); 
 
     try {
-        const { userId, amount } = await req.json(); // Parse the incoming request body
-
+        const { userId, amount } = await req.json(); 
         console.log("Deposit Request Received:", { userId, amount });
 
-        // Log userId to check its value
+
         console.log("userId:", userId);
 
         const user = await User.findById(userId);

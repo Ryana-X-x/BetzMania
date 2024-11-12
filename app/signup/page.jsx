@@ -2,16 +2,23 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import styles from '../../styles/Login.module.css';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const SignupPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-      
+
         const res = await fetch('/api/signup', {
             method: 'POST',
             headers: {
@@ -19,20 +26,31 @@ const SignupPage = () => {
             },
             body: JSON.stringify({ name, email, password }),
         });
-      
+
         if (res.ok) {
+            toast('User Register successfully', {
+                position: "top-center",
+                autoClose: 1000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
             const { token } = await res.json();
-            // Store the token in localStorage (or sessionStorage) for later use
             localStorage.setItem('token', token);
-            router.push('/login'); // Redirect to login after signup
+            router.push('/login');
         } else {
             const errorData = await res.json();
             console.error('Signup failed:', errorData.message); // Log the error message for debugging
-            alert(errorData.message);  // Display the error message to the user
+            alert(errorData.message);
         }
     };
-    
-    
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+      };
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -55,14 +73,19 @@ const SignupPage = () => {
                         required
                         className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
                     />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                    <div className={styles.passwordContainer}>
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className={styles.input}
+                            placeholder="Password"
+                            required
+                        />
+                        <span className={styles.passwordToggle} onClick={togglePasswordVisibility}>
+                            {showPassword ? <FaEye /> : <FaEyeSlash />}
+                        </span>
+                    </div>
                     <button type="submit" className="bg-blue-600 text-white p-2 rounded hover:bg-blue-500">
                         Sign Up
                     </button>

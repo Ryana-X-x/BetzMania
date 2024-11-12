@@ -2,18 +2,24 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation'; // Use next/navigation for client-side routing
-import styles from '../../styles/Login.module.css'; // Import the CSS module
+import { useRouter } from 'next/navigation';
+import styles from '../../styles/Login.module.css';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
-  const [isMounted, setIsMounted] = useState(false);  // State to track client-side mounting
-  const router = useRouter();  // Use the correct useRouter from next/navigation
+  const [showPassword, setShowPassword] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter();
 
-  // Ensure useRouter is used only after component mounts
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -27,31 +33,41 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+
     const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
     });
 
     const data = await res.json();
 
     if (res.ok) {
-        // Save the JWT token to localStorage
-        router.push('/');
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        // Redirect to home or dashboard
+      toast(` Login Successfully`, {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+    });
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      router.push('/');
+
 
     } else {
-        alert(data.message); // Show error
+      alert(data.message); // Show error
     }
-};
+  };
 
 
- 
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -64,6 +80,10 @@ const Login = () => {
   if (!isMounted) {
     return null;  // Prevent rendering the component until after mounting
   }
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div className={styles.container}>
@@ -83,14 +103,20 @@ const Login = () => {
             placeholder="Email"
             required
           />
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={styles.input}
-            placeholder="Password"
-            required
-          />
+          <div className={styles.passwordContainer}>
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={styles.input}
+              placeholder="Password"
+              required
+            />
+            <span className={styles.passwordToggle} onClick={togglePasswordVisibility}>
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
+            </span>
+          </div>
+
           <button type="submit" className={styles.button}>Login</button>
           {error && <p className={styles.error}>{error}</p>}
         </form>

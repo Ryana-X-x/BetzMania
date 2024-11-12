@@ -1,4 +1,3 @@
-// app/api/user/[id]/balance/route.js
 
 import dbConnect from "@/lib/dbConnect";
 import { User } from "@/models/User";

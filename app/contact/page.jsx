@@ -1,7 +1,6 @@
-// app/contact/page.js
 "use client";
 
-import styles from '../../styles/about.module.css'; // Reusing the same CSS file
+import styles from '../../styles/about.module.css'; 
 
 const ContactUs = () => {
     return (

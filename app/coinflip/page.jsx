@@ -13,17 +13,17 @@ const CoinFlip = () => {
     const [balance, setBalance] = useState(0);
     const [betAmount, setBetAmount] = useState(0);
 
-    const user = JSON.parse(localStorage.getItem("user")); // Assuming user is stored in localStorage
-    const userId = user ? user.id : null;  // Get userId from localStorage
+    const user = JSON.parse(localStorage.getItem("user")); 
+    const userId = user ? user.id : null;  
 
-    // Fetch user balance from the backend
+
     useEffect(() => {
         const fetchBalance = async () => {
             if (!userId) return;
 
             try {
                 const response = await axios.get(`/api/user/${userId}/balance`);
-                setBalance(response.data.balance);  // Set the balance from the backend
+                setBalance(response.data.balance);  
             } catch (error) {
                 console.error("Error fetching balance:", error);
             }
@@ -66,14 +66,14 @@ const CoinFlip = () => {
 
             setGameMessage(newGameMessage);
 
-            // Update balance in the backend after the game result
+
             if (userId) {
                 try {
                     const response = await axios.post(`/api/user/${userId}/balance/game`, {
                         gameOutcome,
                         amount: betAmount
                     });
-                    setBalance(response.data.balance);  // Set the updated balance from the backend
+                    setBalance(response.data.balance);  
                 } catch (error) {
                     console.error("Error updating balance:", error);
                 }
